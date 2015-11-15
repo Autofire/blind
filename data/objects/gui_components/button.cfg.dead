@@ -1,0 +1,65 @@
+//The mana bar displays how much energy for abilities we have.
+{
+id: "button",
+prototype: ["base_input"],
+//is_strict: true,
+use_absolute_screen_coordinates: true,
+hidden_in_game: true,
+serializable: false,
+	
+editor_info: {
+   	category: "test",
+},
+
+zorder: "@include data/zorder.cfg:in_front_of_everything",
+no_compile_image: "gui/progress-bar-center.png,gui/progress-bar-well-center.png",
+
+properties: {
+	txt: { type: "string", editor_info: { type: "string", value: "'TEXT'" }, default: "TEXT" },
+
+	/*health_bar_background: {
+		type: "bar_widget", 
+		init: "bar_widget <- widget(me, {
+			type: 'bar',
+			visible: false,
+			segment_length: level.camera_position[2]/2-90,
+			left_cap_length: 8,
+			right_cap_length: 8,
+			x: 90,
+			y: -44,
+			bar: {
+				image: 'gui/progress-bar-well-center.png',
+				area: [0,0,1,11], //xywh
+			},
+			left_cap: {
+				image: 'gui/progress-bar-well-endcaps.png',
+				area: [0,0,8,11],
+			},
+			right_cap: {
+				image: 'gui/progress-bar-well-endcaps.png',
+				area: [8,16,8,11],
+			},
+		})",
+	},*/
+
+/*		gui_button: {
+			type: "button",
+			init: "button <- widget(me, {
+				type: 'button',
+				visible: true,
+				x: 90,
+				y: -44,
+
+//				onClick: { mouse_button: 0, mouse_x: 90, mouse_y: -44, world_point: [90.0, -44.0, 0.0]},
+//				onClick: fire_event(me, 'handle_click', {arg.mouse_button, arg.mouse_x, arg.mouse_y, arg.world_point}),
+				'onClick': fire_event(me, 'handle_click'),
+				label: 'Text',
+				padding: [12,6],
+			})",
+		},*/
+	},
+	
+on_handle_click: "debug('Clicked')",
+on_create: "[
+]",
+}
