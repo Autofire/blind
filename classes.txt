@@ -1,0 +1,88 @@
+## data/classes/dialog_node.cfg -- this will contain a general class defining what a single node of dialog will look like. We assume that there is a custom object called 'player' which has full access to the game world and everything we need to make decisions. You might want to pass in game state using something other than 'obj player' -- but that's your choice. However you want to represent all the game state.
+
+{
+	properties: {
+		on_entry: "def(obj player player, obj dialog_display dialog) ->commands
+		[
+			add(dialog.text, _text),
+			_add_options(player, dialog),
+		]
+		",
+
+		_add_options: "def(obj player player, obj dialog_display dialog) ->commands
+			add(dialog.options, filter(_options, value = null or value.is_available(player)))
+		",
+
+		_text: { type: "string", default: "" },
+
+		_options: { type: "[class dialog_node.option]" },
+	}
+
+	classes: [{
+		option: {
+			properties: {
+				text: { type: "string" },
+				on_select: "def(obj player player, obj dialog_display dialog) ->dialog.close()",
+				is_available: "def(obj player player) ->bool true",
+			}
+		}
+	}]
+}
+
+## data/objects/dialog_display.cfg -- here you will want to make an object which is given a dialog_node class instance and takes responsible for *displaying* it. It uses the calculate_text and options fields to display the text and options the player has.
+
+## data/dialog_nodes.cfg -- this data file can contain all the actual dialog nodes. Note that you could use the pre-processor or whatnot to divide it into multiple files if it gets too large. Each entry in this file initializes a dialog_node class instance.
+
+{
+	//this is a complex dialog node.
+	enter_cave: {
+		on_entry: "def(obj player player, obj dialog_display dialog) ->commands
+		[
+			if(player.has_item('cloak_of_vapors'), [
+				add(dialog.text, q(There's a chasm off to the left.),
+				if(sens and sens.disposition = 'angry', [
+				   add(dialog.text, q(But knowing you, you'll probably fall again! If you try to cross it, I'm staying right here!)),
+				   set(sens.waitfield, [10,10,50,50]),
+				])
+			], [
+				add(dialog.text, q(I wonder what is in here!),
+			])
+				   
+		] where sens = find(player.level.chars, value is obj npc_character and value.name = 'sens')",
+
+		_options: [{
+			text: "Let's just keep moving then",
+		},
+
+		{
+			text: "Okay you're really starting to bug me",
+			is_available: "def(obj player player) ->bool
+			sens and sens.disposition = 'angry' and player.has_item('cloak of vapors')
+			 where sens = find(player.level.chars, value is obj npc_character and value.name = 'sens')
+			",
+
+			on_select: "def(obj player player, obj dialog_display dialog) ->commands
+				dialog.goto_node('sens_leaves')
+			",
+
+		}
+
+		],
+	},
+
+	//This is a very simple dialog node. Note that we just want plain text
+	//and acknowledgement so can just use the _text and _options fields.
+	sens_leaves: {
+		_text: "Sens looks furious :(",
+		_options: [{
+			text: "Screw him then.",
+		}]
+	},
+}
+
+##On program start or whatnot you can read in the entire dialog_nodes.cfg file and want to create a map -- a {string -> class dialog_node} containing all the dialog instances. You can use this to lookup the behavior of any dialog node.
+
+Something like this:
+
+fold(map(dialog_data, {key: construct('dialog_node', value)}), a+b, {})
+where dialog_data = {string -> map} <- get_document('dialog_nodes.cfg')
