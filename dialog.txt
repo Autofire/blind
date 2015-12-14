@@ -1,0 +1,44 @@
+[if talked_to_merchant, goto {start}, else {wares}]
+
+{start}
+???: So...another one has been caught by the trap.
+Esionem: Ah! Who are you!?
+???: Just merchant with many wares for sale.
+	Sens, is he lieing?	{sens check}
+	How can we be so sure? {player check}
+	What do you have in stock? {explain_wares}
+
+{sens_check}
+Sens: I can't really tell, but I don't feel malice in his heart. Not much, anyway. [sens_up] {player check}
+
+{player_check}
+Merchant: You can only trust me. You are without eyes, so you are without choice.
+Esionem: How do you know that?
+Merchant: I have not lost my eyes, unlike most who find themselves here. You see, I have exchanged my liberty for my eyes. They are such a valuable asset, you know. But do not let my past bother you. There is much I can do for you. [set checked_merchant] [if talked_to_merchant, {wares}, {explain_wares}]
+
+{explain_wares}
+Merchant: If you wish, I can identify items for you. Or if you find yourself lacking some tool or trinket, I may be able to furnish you with it. I also possess some knowledge of the caverns which you may find invaluable. All for the right amount of coin. mind you. Oh, and I am will to part with my gold if something of yours catches my eye. {wares}
+
+{wares}
+Shall we conduct buisness? [set talked_to_merchant]
+	What do you have in stock?
+	I have some extra things which may interest you.
+	Can you tell me what this thing is?
+	I'm looking for some info about an area.
+	[if not checked,
+		How can I be sure that you can be trusted? {player_check},
+	 else if not explained_eyes,
+		You said before that you could see...didn't you? {explain_eyes}]
+	That will be all. {leave}
+
+{explain_eyes}
+Merchant: That is correct. As you probably know, all living creatures that stay in this place for long are doomed to lose their eyes and become blind. You are no exception.
+Esionem: But why aren't you blind, then? Wait...you said living creatures, didn't you? Does that make you...a ghost? Please don't tell me you're dead!
+Sens: Stop with the conspiricies. If we was dead, I would know.
+Merchant: Your blue friend raises a good point. I am, however, among the living. I have made a deal with the master of this place. In exchange for my eyes, I must remain behind these bars. Breaking free voids the deal, and I will be subject to your terrible fate.
+Esionem: Master...of this place? Why would you deal with him? He...he...
+	Do you know him, Esio?
+	Sir, where can I find this 'master'?
+	Why would do you prefer being locked up instead of being blind?
+	Thank you for the explanation, sir.
+
