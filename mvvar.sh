@@ -33,7 +33,7 @@ else
 	echo -n "$SEARCH_STR_PROMPT"
 	read find
 	
-	while [ -n $find ]; do
+	until [ -z $find ]; do
 		echo -n "$REPLACE_STR_PROMPT"
 		read replace
 
