@@ -14,8 +14,8 @@
 NAME_EXPR="*.cfg"
 PATH_EXPR="*object*"
 
- SEARCH_STR_PROMPT="Enter the string you want to match (blank to exit): "
-REPLACE_STR_PROMPT="Enter the string you want to replace it with:       "
+ SEARCH_STR_PROMPT="Enter the string you want to match:           "
+REPLACE_STR_PROMPT="Enter the string you want to replace it with: "
 
 function SearchAndReplaceInFiles {
 
