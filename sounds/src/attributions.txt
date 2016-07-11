@@ -1,0 +1,5 @@
+Source file:     320737__hybrid-v__creepy-dungeon-door-slam.wav
+Created by:      Hybrid_V
+Licensed under:  CC Attribution License
+Downloaded from: https://freesound.org/people/Hybrid_V/sounds/320737/
+Called:          effects/gate_open.wav
