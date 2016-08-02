@@ -12,7 +12,7 @@
 # it will continue asking until a blank line is given.
 
 NAME_EXPR="*.cfg"
-PATH_EXPR="*object*"
+PATH_EXPR="*data*"
 
  SEARCH_STR_PROMPT="Enter the string you want to match:           "
 REPLACE_STR_PROMPT="Enter the string you want to replace it with: "
